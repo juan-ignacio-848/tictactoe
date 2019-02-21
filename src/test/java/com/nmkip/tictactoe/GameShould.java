@@ -39,7 +39,7 @@ class GameShould {
     }
 
     @Test
-    void not_allow_players_to_play_on_a_played_square() {
+    void not_allow_different_players_to_play_on_a_played_square() {
         Game game = new Game();
 
         game = game.play(TOP_LEFT);
@@ -49,7 +49,7 @@ class GameShould {
     }
 
     @Test
-    void not_allow_players_to_play_on_a_played_square_2() {
+    void not_allow_the_same_player_to_play_on_a_played_square() {
         Game game = new Game();
 
         game = game.play(TOP_LEFT);
