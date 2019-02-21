@@ -2,14 +2,14 @@ package com.nmkip.tictactoe;
 
 import java.util.Objects;
 
-public class GameState {
+class GameState {
 
     private final Status status;
-    private final Player nextUp;
+    private final Player next;
 
-    GameState(Status status, Player nextUp) {
+    GameState(Status status, Player next) {
         this.status = status;
-        this.nextUp = nextUp;
+        this.next = next;
     }
 
     @Override
@@ -18,16 +18,16 @@ public class GameState {
         if (o == null || getClass() != o.getClass()) return false;
         GameState gameState = (GameState) o;
         return status == gameState.status &&
-                nextUp == gameState.nextUp;
+                next == gameState.next;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, nextUp);
+        return Objects.hash(status, next);
     }
 
     @Override
     public String toString() {
-        return "Status: " + status + ", next up: " + nextUp;
+        return "Status: " + status + ", next: " + next;
     }
 }

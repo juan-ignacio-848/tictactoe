@@ -1,13 +1,13 @@
 package com.nmkip.tictactoe;
 
 import static com.nmkip.tictactoe.Player.*;
-import static com.nmkip.tictactoe.Status.*;
+import static com.nmkip.tictactoe.Status.GAME_ON;
 
 class Game {
 
     private final Status status;
     private final Player lastPlayer;
-    private Board board;
+    private final Board board;
 
     Game() {
         this.status = GAME_ON;
@@ -16,35 +16,26 @@ class Game {
     }
 
     private Game(Status status, Player lastPlayer, Board board) {
+        this.status = status;
         this.lastPlayer = lastPlayer;
         this.board = board;
-        if (board.hasWinningCombination(lastPlayer))
-            this.status = lastPlayer == X ? WINNER_IS_X : WINNER_IS_O;
-        else if (board.isFull())
-            this.status = DRAW;
-        else
-            this.status = status;
     }
 
     Game play(Square square) {
-        if(board.alreadyTaken(square) || gameOver())
+        if (board.alreadyTaken(square))
             return this;
         else
-            return new Game(GAME_ON, nextPlayer(), board.take(square, nextPlayer()));
+            return new Game(GAME_ON, nextPlayer(), board.take(square));
     }
 
     GameState state() {
-        if(gameOver())
-            return new GameState(status, NONE);
-        else
-            return new GameState(status, nextPlayer());
-    }
-
-    private boolean gameOver() {
-        return status == DRAW || status == WINNER_IS_X || status == WINNER_IS_O;
+        return new GameState(GAME_ON, nextPlayer());
     }
 
     private Player nextPlayer() {
-        return lastPlayer == NONE ? X : lastPlayer == X ? O : X;
+        if (lastPlayer == NONE)
+            return X;
+        else
+            return lastPlayer == X ? O : X;
     }
 }
