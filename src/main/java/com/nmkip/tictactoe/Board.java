@@ -54,7 +54,8 @@ class Board {
     }
 
     private Set<Square> takenSquaresBy(Player player) {
-        return takenSquaresByPlayer.entrySet().stream()
+        return takenSquaresByPlayer.entrySet()
+                                   .stream()
                                    .filter(entry -> entry.getValue() == player)
                                    .map(Map.Entry::getKey)
                                    .collect(Collectors.toSet());
