@@ -85,7 +85,7 @@ class GameShould {
     }
 
     @Test
-    void not_declare_a_win_a_draw() {
+    void not_call_a_draw_instead_of_a_win() {
         Game game = play(
                 CENTER_MIDDLE,
                 TOP_MIDDLE,
