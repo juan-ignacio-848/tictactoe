@@ -84,6 +84,13 @@ class GameShould {
         assertThat(game.state(), is(new GameState(WINNER_IS_X, NONE)));
     }
 
+    @Test
+    void recognise_winning_by_O() {
+        Game game = play(TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT, CENTER_MIDDLE, BOTTOM_MIDDLE, CENTER_RIGHT);
+
+        assertThat(game.state(), is(new GameState(WINNER_IS_O, NONE)));
+    }
+
     private Game play(Square... squares) {
         return stream(squares)
                 .reduce(new Game(), Game::play, (game, game2) -> game);

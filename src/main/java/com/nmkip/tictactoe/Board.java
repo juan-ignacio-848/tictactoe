@@ -1,32 +1,34 @@
 package com.nmkip.tictactoe;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.nmkip.tictactoe.Square.*;
 
 class Board {
 
-    final Set<Square> takenSquares;
+    final Map<Square, Player> takenSquaresByPlayer;
 
     Board() {
-        takenSquares = new HashSet<>();
+        takenSquaresByPlayer = new HashMap<>();
     }
 
-    private Board(Set<Square> square) {
-        this.takenSquares = square;
+    private Board(Map<Square, Player> takenSquaresByPlayer) {
+        this.takenSquaresByPlayer = takenSquaresByPlayer;
     }
 
     boolean alreadyTaken(Square square) {
-        return takenSquares.contains(square);
+        return takenSquaresByPlayer.keySet().contains(square);
     }
 
     boolean hasDrawCombination() {
-        return takenSquares.size() == 9;
+        return takenSquaresByPlayer.size() == 9;
     }
 
-    boolean hasWinningCombination() {
+    boolean hasWinningCombination(Player player) {
         Stream<Stream<Square>> winningCombinations = Stream.of(
                 Stream.of(TOP_LEFT, TOP_MIDDLE, TOP_RIGHT),
                 Stream.of(CENTER_LEFT, CENTER_MIDDLE, CENTER_RIGHT),
@@ -38,12 +40,21 @@ class Board {
                 Stream.of(TOP_RIGHT, CENTER_MIDDLE, BOTTOM_LEFT)
         );
 
-        return winningCombinations.anyMatch(winningCombination -> winningCombination.allMatch(takenSquares::contains));
+        return winningCombinations.anyMatch(winningCombination -> winningCombination.allMatch(
+                takenSquaresBy(player)::contains
+        ));
     }
 
-    Board take(Square square) {
-        Set<Square> squares = new HashSet<>(takenSquares);
-        squares.add(square);
+    private Set<Square> takenSquaresBy(Player player) {
+        return takenSquaresByPlayer.entrySet().stream()
+                                   .filter(entry -> entry.getValue() == player)
+                                   .map(Map.Entry::getKey)
+                                   .collect(Collectors.toSet());
+    }
+
+    Board take(Square square, Player player) {
+        Map<Square, Player> squares = new HashMap<>(takenSquaresByPlayer);
+        squares.put(square, player);
         return new Board(squares);
     }
 }

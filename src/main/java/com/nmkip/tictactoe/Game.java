@@ -1,9 +1,7 @@
 package com.nmkip.tictactoe;
 
 import static com.nmkip.tictactoe.Player.*;
-import static com.nmkip.tictactoe.Status.DRAW;
-import static com.nmkip.tictactoe.Status.GAME_ON;
-import static com.nmkip.tictactoe.Status.WINNER_IS_X;
+import static com.nmkip.tictactoe.Status.*;
 
 class Game {
 
@@ -23,8 +21,8 @@ class Game {
 
         if (board.hasDrawCombination())
             this.status = DRAW;
-        else if (board.hasWinningCombination())
-            this.status = WINNER_IS_X;
+        else if (board.hasWinningCombination(lastPlayer))
+            this.status = lastPlayer == X ? WINNER_IS_X : WINNER_IS_O;
         else
             this.status = status;
 
@@ -34,7 +32,7 @@ class Game {
         if (board.alreadyTaken(square))
             return this;
         else
-            return new Game(GAME_ON, nextPlayer(), board.take(square));
+            return new Game(GAME_ON, nextPlayer(), board.take(square, nextPlayer()));
     }
 
     GameState state() {
@@ -42,11 +40,15 @@ class Game {
     }
 
     private Player nextPlayer() {
-        if (status == DRAW || status == WINNER_IS_X)
+        if (gameOver())
             return NONE;
         else if (lastPlayer == NONE)
             return X;
         else
             return lastPlayer == X ? O : X;
+    }
+
+    private boolean gameOver() {
+        return status == DRAW || status == WINNER_IS_X || status == WINNER_IS_O;
     }
 }
