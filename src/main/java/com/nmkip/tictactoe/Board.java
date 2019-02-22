@@ -19,6 +19,10 @@ class Board {
         return takenSquares.contains(square);
     }
 
+    boolean hasDrawCombination() {
+        return takenSquares.size() == 9;
+    }
+
     Board take(Square square) {
         Set<Square> squares = new HashSet<>(takenSquares);
         squares.add(square);

@@ -3,12 +3,11 @@ package com.nmkip.tictactoe;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static com.nmkip.tictactoe.Player.*;
 import static com.nmkip.tictactoe.Square.*;
-import static com.nmkip.tictactoe.Status.*;
-import static java.util.Arrays.*;
+import static com.nmkip.tictactoe.Status.DRAW;
+import static com.nmkip.tictactoe.Status.GAME_ON;
+import static java.util.Arrays.stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -49,6 +48,24 @@ class GameShould {
 
         assertThat(game.state(), is(new GameState(GAME_ON, X)));
     }
+
+    @Test
+    void recognise_a_draw() {
+        Game game = play(
+                CENTER_MIDDLE,
+                TOP_RIGHT,
+                TOP_LEFT,
+                BOTTOM_RIGHT,
+                CENTER_RIGHT,
+                CENTER_LEFT,
+                BOTTOM_LEFT,
+                BOTTOM_MIDDLE,
+                TOP_MIDDLE
+        );
+
+        assertThat(game.state(), is(new GameState(DRAW, NONE)));
+    }
+
 
     private Game play(Square... squares) {
         return stream(squares)

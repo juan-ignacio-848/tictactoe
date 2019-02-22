@@ -1,6 +1,7 @@
 package com.nmkip.tictactoe;
 
 import static com.nmkip.tictactoe.Player.*;
+import static com.nmkip.tictactoe.Status.DRAW;
 import static com.nmkip.tictactoe.Status.GAME_ON;
 
 class Game {
@@ -16,9 +17,14 @@ class Game {
     }
 
     private Game(Status status, Player lastPlayer, Board board) {
-        this.status = status;
         this.lastPlayer = lastPlayer;
         this.board = board;
+
+        if(board.hasDrawCombination())
+            this.status = DRAW;
+        else
+            this.status = status;
+
     }
 
     Game play(Square square) {
@@ -29,11 +35,13 @@ class Game {
     }
 
     GameState state() {
-        return new GameState(GAME_ON, nextPlayer());
+        return new GameState(status, nextPlayer());
     }
 
     private Player nextPlayer() {
-        if (lastPlayer == NONE)
+        if(status == DRAW)
+            return NONE;
+        else if (lastPlayer == NONE)
             return X;
         else
             return lastPlayer == X ? O : X;
