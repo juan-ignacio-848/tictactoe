@@ -19,10 +19,10 @@ class Game {
         this.lastPlayer = lastPlayer;
         this.board = board;
 
-        if (board.hasDrawCombination())
-            this.status = DRAW;
-        else if (board.hasWinningCombination(lastPlayer))
+        if (board.hasWinningCombination(lastPlayer))
             this.status = lastPlayer == X ? WINNER_IS_X : WINNER_IS_O;
+        else if (board.hasDrawCombination())
+            this.status = DRAW;
         else
             this.status = status;
 

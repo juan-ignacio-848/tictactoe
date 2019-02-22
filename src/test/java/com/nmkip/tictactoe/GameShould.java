@@ -85,6 +85,23 @@ class GameShould {
     }
 
     @Test
+    void not_declare_a_win_a_draw() {
+        Game game = play(
+                CENTER_MIDDLE,
+                TOP_MIDDLE,
+                TOP_LEFT,
+                TOP_RIGHT,
+                BOTTOM_LEFT,
+                CENTER_LEFT,
+                BOTTOM_MIDDLE,
+                CENTER_RIGHT,
+                BOTTOM_RIGHT
+        );
+
+        assertThat(game.state(), is(new GameState(WINNER_IS_X, NONE)));
+    }
+
+    @Test
     void recognise_winning_by_O() {
         Game game = play(TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT, CENTER_MIDDLE, BOTTOM_MIDDLE, CENTER_RIGHT);
 
