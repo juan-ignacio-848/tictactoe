@@ -2,11 +2,12 @@ package com.nmkip.tictactoe;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.nmkip.tictactoe.Player.*;
 import static com.nmkip.tictactoe.Square.*;
-import static com.nmkip.tictactoe.Status.DRAW;
-import static com.nmkip.tictactoe.Status.GAME_ON;
+import static com.nmkip.tictactoe.Status.*;
 import static java.util.Arrays.stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -66,7 +67,15 @@ class GameShould {
         assertThat(game.state(), is(new GameState(DRAW, NONE)));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "TOP_LEFT, BOTTOM_LEFT, TOP_MIDDLE, BOTTOM_MIDDLE, TOP_RIGHT"
+    })
+    void recognise_winning_combinations(Square s1, Square s2, Square s3, Square s4, Square s5) {
+        Game game = play(s1, s2, s3, s4, s5);
 
+        assertThat(game.state(), is(new GameState(WINNER_IS_X, NONE)));
+    }
     private Game play(Square... squares) {
         return stream(squares)
                 .reduce(new Game(), Game::play, (game, game2) -> game);

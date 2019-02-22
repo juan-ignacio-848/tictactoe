@@ -3,6 +3,7 @@ package com.nmkip.tictactoe;
 import static com.nmkip.tictactoe.Player.*;
 import static com.nmkip.tictactoe.Status.DRAW;
 import static com.nmkip.tictactoe.Status.GAME_ON;
+import static com.nmkip.tictactoe.Status.WINNER_IS_X;
 
 class Game {
 
@@ -20,8 +21,10 @@ class Game {
         this.lastPlayer = lastPlayer;
         this.board = board;
 
-        if(board.hasDrawCombination())
+        if (board.hasDrawCombination())
             this.status = DRAW;
+        else if (board.hasWinningCombination())
+            this.status = WINNER_IS_X;
         else
             this.status = status;
 
@@ -39,7 +42,7 @@ class Game {
     }
 
     private Player nextPlayer() {
-        if(status == DRAW)
+        if (status == DRAW || status == WINNER_IS_X)
             return NONE;
         else if (lastPlayer == NONE)
             return X;

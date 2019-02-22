@@ -1,5 +1,5 @@
 package com.nmkip.tictactoe;
 
 public enum Status {
-    DRAW, GAME_ON
+    DRAW, WINNER_IS_X, GAME_ON
 }

@@ -2,6 +2,9 @@ package com.nmkip.tictactoe;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
+
+import static com.nmkip.tictactoe.Square.*;
 
 class Board {
 
@@ -21,6 +24,12 @@ class Board {
 
     boolean hasDrawCombination() {
         return takenSquares.size() == 9;
+    }
+
+    boolean hasWinningCombination() {
+        Stream<Square> winningCombination = Stream.of(TOP_LEFT, TOP_MIDDLE, TOP_RIGHT);
+
+        return winningCombination.allMatch(takenSquares::contains);
     }
 
     Board take(Square square) {
