@@ -29,7 +29,7 @@ class Game {
     }
 
     Game play(Square square) {
-        if (board.alreadyTaken(square))
+        if (board.alreadyTaken(square) || gameOver())
             return this;
         else
             return new Game(GAME_ON, nextPlayer(), board.take(square, nextPlayer()));

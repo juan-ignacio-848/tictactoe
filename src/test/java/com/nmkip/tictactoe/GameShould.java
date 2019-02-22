@@ -108,6 +108,13 @@ class GameShould {
         assertThat(game.state(), is(new GameState(WINNER_IS_O, NONE)));
     }
 
+    @Test
+    void not_allow_movements_after_gameover() {
+        Game game = play(TOP_RIGHT, TOP_LEFT, TOP_MIDDLE, CENTER_LEFT, CENTER_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT);
+
+        assertThat(game.state(), is(new GameState(WINNER_IS_O, NONE)));
+    }
+
     private Game play(Square... squares) {
         return stream(squares)
                 .reduce(new Game(), Game::play, (game, game2) -> game);
