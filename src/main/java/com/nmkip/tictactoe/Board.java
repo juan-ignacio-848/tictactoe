@@ -10,7 +10,7 @@ import static com.nmkip.tictactoe.Square.*;
 
 class Board {
 
-    final Map<Square, Player> takenSquaresByPlayer;
+    private final Map<Square, Player> takenSquaresByPlayer;
 
     Board() {
         takenSquaresByPlayer = new HashMap<>();
