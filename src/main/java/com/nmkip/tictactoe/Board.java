@@ -27,9 +27,18 @@ class Board {
     }
 
     boolean hasWinningCombination() {
-        Stream<Square> winningCombination = Stream.of(TOP_LEFT, TOP_MIDDLE, TOP_RIGHT);
+        Stream<Stream<Square>> winningCombinations = Stream.of(
+                Stream.of(TOP_LEFT, TOP_MIDDLE, TOP_RIGHT),
+                Stream.of(CENTER_LEFT, CENTER_MIDDLE, CENTER_RIGHT),
+                Stream.of(BOTTOM_LEFT, BOTTOM_MIDDLE, BOTTOM_RIGHT),
+                Stream.of(TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT),
+                Stream.of(TOP_MIDDLE, CENTER_MIDDLE, BOTTOM_MIDDLE),
+                Stream.of(TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT),
+                Stream.of(TOP_LEFT, CENTER_MIDDLE, BOTTOM_RIGHT),
+                Stream.of(TOP_RIGHT, CENTER_MIDDLE, BOTTOM_LEFT)
+        );
 
-        return winningCombination.allMatch(takenSquares::contains);
+        return winningCombinations.anyMatch(winningCombination -> winningCombination.allMatch(takenSquares::contains));
     }
 
     Board take(Square square) {

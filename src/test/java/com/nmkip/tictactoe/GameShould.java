@@ -69,13 +69,21 @@ class GameShould {
 
     @ParameterizedTest
     @CsvSource({
-            "TOP_LEFT, BOTTOM_LEFT, TOP_MIDDLE, BOTTOM_MIDDLE, TOP_RIGHT"
+            "TOP_LEFT, BOTTOM_LEFT, TOP_MIDDLE, BOTTOM_MIDDLE, TOP_RIGHT",
+            "CENTER_LEFT, BOTTOM_LEFT, CENTER_MIDDLE, BOTTOM_MIDDLE, CENTER_RIGHT",
+            "BOTTOM_LEFT, TOP_LEFT, BOTTOM_MIDDLE, TOP_MIDDLE, BOTTOM_RIGHT",
+            "TOP_LEFT, TOP_RIGHT, CENTER_LEFT, CENTER_RIGHT, BOTTOM_LEFT",
+            "TOP_MIDDLE, TOP_RIGHT, CENTER_MIDDLE, CENTER_RIGHT, BOTTOM_MIDDLE",
+            "TOP_RIGHT, TOP_LEFT, CENTER_RIGHT, CENTER_LEFT, BOTTOM_RIGHT",
+            "TOP_LEFT, CENTER_RIGHT, CENTER_MIDDLE, BOTTOM_LEFT, BOTTOM_RIGHT",
+            "TOP_RIGHT, CENTER_LEFT, CENTER_MIDDLE, BOTTOM_RIGHT, BOTTOM_LEFT"
     })
     void recognise_winning_combinations(Square s1, Square s2, Square s3, Square s4, Square s5) {
         Game game = play(s1, s2, s3, s4, s5);
 
         assertThat(game.state(), is(new GameState(WINNER_IS_X, NONE)));
     }
+
     private Game play(Square... squares) {
         return stream(squares)
                 .reduce(new Game(), Game::play, (game, game2) -> game);
