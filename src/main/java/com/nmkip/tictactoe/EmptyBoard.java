@@ -8,12 +8,17 @@ public class EmptyBoard implements Board {
     }
 
     @Override
-    public Board take(Square square) {
-        return new NonEmptyBoard(square);
+    public Board take(Square square, Player player) {
+        return new NonEmptyBoard(square, player);
     }
 
     @Override
-    public boolean hasWinningCombination() {
+    public boolean hasWinningCombination(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean allTaken() {
         return false;
     }
 }

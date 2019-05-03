@@ -1,41 +1,63 @@
 package com.nmkip.tictactoe;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.nmkip.tictactoe.Square.*;
 
 class NonEmptyBoard implements Board {
 
-    private final Set<Square> takenSquares;
+    private static final int NUMBER_OF_DISTINCT_SQUARES = 9;
 
-    NonEmptyBoard(Square square) {
-        this.takenSquares = new HashSet<>();
-        this.takenSquares.add(square);
+    private final Map<Square, Player> takenSquares;
+
+    NonEmptyBoard(Square square, Player player) {
+        this.takenSquares = new HashMap<>();
+        this.takenSquares.put(square, player);
     }
 
-    private NonEmptyBoard(Set<Square> takenSquares) {
+    private NonEmptyBoard(Map<Square, Player> takenSquares) {
         this.takenSquares = takenSquares;
     }
 
     @Override
     public boolean taken(Square square) {
-        return takenSquares.contains(square);
+        return takenSquares.keySet().contains(square);
     }
 
     @Override
-    public Board take(Square square) {
-        HashSet<Square> nextTakenSquares = new HashSet<>(takenSquares);
-        nextTakenSquares.add(square);
+    public Board take(Square square, Player player) {
+        Map<Square, Player> nextTakenSquares = new HashMap<>(takenSquares);
+        nextTakenSquares.put(square, player);
         return new NonEmptyBoard(nextTakenSquares);
     }
 
     @Override
-    public boolean hasWinningCombination() {
+    public boolean hasWinningCombination(Player player) {
         return winningCombinations().anyMatch(
-                aWinningCombination -> aWinningCombination.allMatch(takenSquares::contains)
+                aWinningCombination -> aWinningCombination.allMatch(takenSquaresBy(player))
         );
+    }
+
+    private Predicate<Square> takenSquaresBy(Player player) {
+        return squaresOf(player)::contains;
+    }
+
+    private Set<Square> squaresOf(Player player) {
+        return takenSquares.entrySet()
+                           .stream()
+                           .filter(entry -> entry.getValue() == player)
+                           .map(Map.Entry::getKey)
+                           .collect(Collectors.toSet());
+    }
+
+    @Override
+    public boolean allTaken() {
+        return takenSquares.size() == NUMBER_OF_DISTINCT_SQUARES;
     }
 
     private Stream<Stream<Square>> winningCombinations() {

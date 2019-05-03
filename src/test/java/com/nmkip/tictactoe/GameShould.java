@@ -1,14 +1,14 @@
 package com.nmkip.tictactoe;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.stream.Stream;
 
-import static com.nmkip.tictactoe.Square.TOP_LEFT;
-import static com.nmkip.tictactoe.Square.TOP_RIGHT;
+import static com.nmkip.tictactoe.Square.*;
 import static com.nmkip.tictactoe.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -64,6 +64,37 @@ class GameShould {
         game = placeMarksOn(s1, s2, s3, s4, s5);
 
         assertThat(game.state(), is(new GameState(X_WON)));
+    }
+
+    @Test
+    void recognise_win_by_O() {
+        game = placeMarksOn(
+                MIDDLE_LEFT,
+                TOP_LEFT,
+                BOTTOM_CENTER,
+                MIDDLE_CENTER,
+                TOP_RIGHT,
+                BOTTOM_RIGHT
+        );
+
+        assertThat(game.state(), is(new GameState(O_WON)));
+    }
+
+    @Test
+    void recognise_a_draw() {
+        game = placeMarksOn(
+                MIDDLE_CENTER,
+                TOP_RIGHT,
+                TOP_LEFT,
+                BOTTOM_RIGHT,
+                MIDDLE_RIGHT,
+                MIDDLE_LEFT,
+                BOTTOM_LEFT,
+                BOTTOM_CENTER,
+                TOP_CENTER
+        );
+
+        assertThat(game.state(), is(new GameState(IS_A_DRAW)));
     }
 
     private Game placeMarksOn(Square... squares) {

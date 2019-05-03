@@ -1,7 +1,8 @@
 package com.nmkip.tictactoe;
 
 public interface Board {
+    Board take(Square square, Player player);
     boolean taken(Square square);
-    Board take(Square square);
-    boolean hasWinningCombination();
+    boolean allTaken();
+    boolean hasWinningCombination(Player player);
 }
