@@ -33,13 +33,21 @@ class NonEmptyBoard implements Board {
 
     @Override
     public boolean hasWinningCombination() {
-        Stream<Stream<Square>> winningCombinations = Stream.of(
-                Stream.of(TOP_LEFT, TOP_CENTER, TOP_RIGHT),
-                Stream.of(MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT)
-        );
-
-        return winningCombinations.anyMatch(
+        return winningCombinations().anyMatch(
                 aWinningCombination -> aWinningCombination.allMatch(takenSquares::contains)
+        );
+    }
+
+    private Stream<Stream<Square>> winningCombinations() {
+        return Stream.of(
+                Stream.of(TOP_LEFT, TOP_CENTER, TOP_RIGHT),
+                Stream.of(MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT),
+                Stream.of(BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT),
+                Stream.of(TOP_LEFT, MIDDLE_LEFT, BOTTOM_LEFT),
+                Stream.of(TOP_CENTER, MIDDLE_CENTER, BOTTOM_CENTER),
+                Stream.of(TOP_RIGHT, MIDDLE_RIGHT, BOTTOM_RIGHT),
+                Stream.of(TOP_LEFT, MIDDLE_CENTER, BOTTOM_RIGHT),
+                Stream.of(TOP_RIGHT, MIDDLE_CENTER, BOTTOM_LEFT)
         );
     }
 
