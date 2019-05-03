@@ -11,4 +11,9 @@ public class EmptyBoard implements Board {
     public Board take(Square square) {
         return new NonEmptyBoard(square);
     }
+
+    @Override
+    public boolean hasWinningCombination() {
+        return false;
+    }
 }

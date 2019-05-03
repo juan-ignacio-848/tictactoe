@@ -2,8 +2,7 @@ package com.nmkip.tictactoe;
 
 import static com.nmkip.tictactoe.Player.O;
 import static com.nmkip.tictactoe.Player.X;
-import static com.nmkip.tictactoe.Status.O_IS_PLAYING;
-import static com.nmkip.tictactoe.Status.X_IS_PLAYING;
+import static com.nmkip.tictactoe.Status.*;
 
 class Game {
 
@@ -27,17 +26,24 @@ class Game {
         if (board.taken(square))
             return this;
          else
-            return new Game(nextPlayer(), board.take(square), nextState());
+            return nextGame(square);
     }
 
     GameState state() {
         return state;
     }
 
-    private GameState nextState() {
-        return nextPlayer() == X
-                ? new GameState(X_IS_PLAYING)
-                : new GameState(O_IS_PLAYING);
+    private Game nextGame(Square square) {
+        Board nextBoard = board.take(square);
+        return new Game(nextPlayer(), nextBoard, nextState(nextBoard));
+    }
+
+    private GameState nextState(Board nextBoard) {
+        return nextBoard.hasWinningCombination()
+                ? new GameState(X_WON)
+                : nextPlayer() == X
+                    ? new GameState(X_IS_PLAYING)
+                    : new GameState(O_IS_PLAYING);
     }
 
     private Player nextPlayer() {
