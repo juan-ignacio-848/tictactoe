@@ -38,6 +38,8 @@ class Game {
         return new Game(nextPlayer(), nextBoard, state.nextState(nextBoard, currentPlayer, nextPlayer()));
     }
 
+    // This could be part of Player, but it feels weird that a player should tell the game who the next player is.
+    // Comments like these are bad :)
     private Player nextPlayer() {
         return currentPlayer == X ? O : X;
     }
