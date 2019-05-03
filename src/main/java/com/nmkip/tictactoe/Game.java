@@ -1,32 +1,33 @@
 package com.nmkip.tictactoe;
 
-import static com.nmkip.tictactoe.Player.*;
-import static com.nmkip.tictactoe.Square.NONE;
-import static com.nmkip.tictactoe.Status.*;
+import static com.nmkip.tictactoe.Player.O;
+import static com.nmkip.tictactoe.Player.X;
+import static com.nmkip.tictactoe.Status.O_IS_PLAYING;
+import static com.nmkip.tictactoe.Status.X_IS_PLAYING;
 
 class Game {
 
-    private final Player lastPlayer;
-    private final Square lastSquare;
+    private final Player currentPlayer;
     private final GameState state;
+    private final Board board;
 
     Game() {
-        this.lastPlayer = X;
-        this.lastSquare = NONE;
+        this.currentPlayer = X;
+        this.board = new EmptyBoard();
         this.state = new GameState(X_IS_PLAYING);
     }
 
-    private Game(Player lastPlayer, Square lastSquare, GameState state) {
-        this.lastPlayer = lastPlayer;
-        this.lastSquare = lastSquare;
+    private Game(Player currentPlayer, Board board, GameState state) {
+        this.currentPlayer = currentPlayer;
+        this.board = board;
         this.state = state;
     }
 
     Game placeMarkOn(Square square) {
-        if (square != lastSquare)
-            return new Game(nextPlayer(), square, nextState());
-        else
+        if (board.taken(square))
             return this;
+         else
+            return new Game(nextPlayer(), board.take(square), nextState());
     }
 
     GameState state() {
@@ -40,6 +41,6 @@ class Game {
     }
 
     private Player nextPlayer() {
-        return lastPlayer == X ? O : X;
+        return currentPlayer == X ? O : X;
     }
 }

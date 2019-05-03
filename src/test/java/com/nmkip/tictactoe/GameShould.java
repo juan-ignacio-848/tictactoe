@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.nmkip.tictactoe.Player.*;
 import static com.nmkip.tictactoe.Square.*;
 import static com.nmkip.tictactoe.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,7 +49,6 @@ class GameShould {
     @Test
     @Disabled
     void recognise_winning_combinations() {
-
         game = game.placeMarkOn(TOP_LEFT);
         game = game.placeMarkOn(MIDDLE_LEFT);
         game = game.placeMarkOn(TOP_CENTER);
