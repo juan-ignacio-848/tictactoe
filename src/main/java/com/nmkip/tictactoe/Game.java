@@ -35,20 +35,7 @@ class Game {
 
     private Game nextGame(Square square) {
         Board nextBoard = board.take(square, currentPlayer);
-        return new Game(nextPlayer(), nextBoard, nextState(nextBoard));
-    }
-
-    private GameState nextState(Board nextBoard) {
-        if (nextBoard.hasWinningCombination(currentPlayer))
-            return currentPlayer == X
-                    ? new GameState(X_WON)
-                    : new GameState(O_WON);
-        else if (nextBoard.allTaken())
-            return new GameState(IS_A_DRAW);
-        else
-            return nextPlayer() == X
-                ? new GameState(X_IS_PLAYING)
-                : new GameState(O_IS_PLAYING);
+        return new Game(nextPlayer(), nextBoard, state.nextState(nextBoard, currentPlayer, nextPlayer()));
     }
 
     private Player nextPlayer() {
